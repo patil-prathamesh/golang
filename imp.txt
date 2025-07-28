@@ -1,0 +1,12 @@
+package - a folder which contains multiple go files
+module - collection of packages
+
+const myconst
+var myVar
+
+bool
+float32 float64
+int-by default64   int16 int32 int64
+rune
+string
+uint uint8 uint16 uint32 uint64
