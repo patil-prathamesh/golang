@@ -5,13 +5,18 @@ import (
 
 	"go/mongo/models"
   "go/mongo/controllers"
+  "github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.Default()
-	r.Use(gin.Logger())
+  err := godotenv.Load()
+  if err != nil {
+    log.Fatal("Error loading .env file")
+  }
+	r := gin.New()
+	// r.Use(gin.Logger())
 	models.ConnectDatabase()
 
 	log.Println("Server started!")

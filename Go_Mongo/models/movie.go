@@ -16,7 +16,7 @@ type Movie struct {
 }
 
 func InsertMovie(movie Movie) error {
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 	inserted, err := collection.InsertOne(context.TODO(), movie)
 	fmt.Println(inserted)
 	if err != nil {
@@ -31,7 +31,7 @@ func InsertMany(movies []Movie) error {
 	for i, movie := range movies {
 		newMovies[i] = movie
 	}
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 
 	result, err := collection.InsertMany(context.TODO(), newMovies)
 	fmt.Println(result)
@@ -44,13 +44,14 @@ func InsertMany(movies []Movie) error {
 
 func UpdateMovie(movieId string, movie Movie) error {
 	id, err := primitive.ObjectIDFromHex(movieId)
+	fmt.Println(movieId,id)
 	if err != nil {
 		return err
 	}
 	filter := bson.M{"_id": id}
 	update := bson.M{"$set": bson.M{"movie": movie.Movie, "actors": movie.Actors}}
 
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 	result, err := collection.UpdateOne(context.TODO(), filter, update)
 	fmt.Println(result)
 	if err != nil {
@@ -67,7 +68,7 @@ func DeleteMovie(movieId string) error {
 	}
 	filter := bson.M{"_id": id}
 
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 	result, err := collection.DeleteOne(context.TODO(), filter)
 	fmt.Println(result)
 	if err != nil {
@@ -80,7 +81,7 @@ func DeleteMovie(movieId string) error {
 func Find(movieName string) (error, Movie) {
 	var result Movie
 	filter := bson.M{"movie": movieName}
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
 	// if err != nil {
 	// 	fmt.Println("Hello")
@@ -92,7 +93,7 @@ func Find(movieName string) (error, Movie) {
 func FindAll(movieName string) []Movie {
 	var results []Movie
 	filter := bson.M{"movie": movieName}
-	colllection := mongoClient.Database(db).Collection(collName)
+	colllection := GetCollection()
 	cursor, err := colllection.Find(context.TODO(), filter)
 	if err != nil {
 		log.Fatal(err)
@@ -107,7 +108,7 @@ func FindAll(movieName string) []Movie {
 
 func ListAll() []Movie {
 	var results []Movie
-	colllection := mongoClient.Database(db).Collection(collName)
+	colllection := GetCollection()
 	cursor, err := colllection.Find(context.TODO(), bson.M{})
 	if err != nil {
 		log.Fatal(err)
@@ -120,7 +121,7 @@ func ListAll() []Movie {
 }
 
 func DeleteAll() error {
-	collection := mongoClient.Database(db).Collection(collName)
+	collection := GetCollection()
 	delResult, err := collection.DeleteMany(context.TODO(), bson.M{}, nil)
 	if err != nil {
 		log.Fatal(err)
