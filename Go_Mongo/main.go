@@ -3,9 +3,10 @@ package main
 import (
 	"log"
 
+	"go/mongo/controllers"
 	"go/mongo/models"
-  "go/mongo/controllers"
-  "github.com/joho/godotenv"
+
+	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
 )

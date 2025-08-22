@@ -1,0 +1,19 @@
+go routines
+channels
+select
+
+consurrency patterns
+for select
+done channel
+pipelines
+
+wg sync.WaitGroup
+
+wg.Add(1)
+
+at last use wg.Wait()
+
+var lock sync.Mutex
+
+lock.Lock()
+lock.Unlock()

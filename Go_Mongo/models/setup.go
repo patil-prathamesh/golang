@@ -20,7 +20,7 @@ func ConnectDatabase() {
 	// collName := os.Getenv("COLLECTION_NAME")
 	clientOption := options.Client().ApplyURI(connectionString)
 
-	client, err := mongo.Connect(context.TODO(), clientOption)
+	client, err := mongo.Connect(context.Background(), clientOption)
 	if err != nil {
 		panic(err)
 	}
